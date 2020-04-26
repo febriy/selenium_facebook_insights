@@ -6,7 +6,11 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-from location_paths import export_button_path, download_button_path
+from location_paths import (
+    export_button_path,
+    download_button_path,
+    insights_selector_paths,
+)
 
 
 option = Options()
@@ -45,11 +49,22 @@ def login_to_fb(driver, username, password):
     login_button.click()
 
 
-def export_page_insights():
+def export_page_insights(selected_insights):
     export_button = WebDriverWait(driver, 10).until(
         ec.visibility_of_element_located((By.XPATH, export_button_path))
     )
     export_button.click()
+
+    option_insights = ["post", "page", "video"]
+    if selected_insights not in option_insights:
+        raise ValueError("Invalid df type. Expected one of: %s" % option_insights)
+
+    insights_selection = WebDriverWait(driver, 10).until(
+        ec.visibility_of_element_located(
+            (By.XPATH, insights_selector_paths[selected_insights])
+        )
+    )
+    insights_selection.click()
 
     download_button = WebDriverWait(driver, 10).until(
         ec.visibility_of_element_located((By.XPATH, download_button_path))
@@ -61,4 +76,4 @@ if __name__ == "__main__":
     username = facebook_credentials["facebook_user"]
     password = facebook_credentials["facebook_password"]
     login_to_fb(driver, username, password)
-    export_page_insights()
+    export_page_insights("video")
