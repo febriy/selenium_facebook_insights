@@ -10,6 +10,8 @@ from location_paths import (
     export_button_path,
     download_button_path,
     insights_selector_paths,
+    format_selector_path,
+    formats_selector_paths,
 )
 
 
@@ -49,7 +51,7 @@ def login_to_fb(driver, username, password):
     login_button.click()
 
 
-def export_page_insights(selected_insights):
+def export_page_insights(selected_insights, selected_format):
     export_button = WebDriverWait(driver, 10).until(
         ec.visibility_of_element_located((By.XPATH, export_button_path))
     )
@@ -66,6 +68,22 @@ def export_page_insights(selected_insights):
     )
     insights_selection.click()
 
+    option_formats = ["xls", "csv"]
+    if selected_format not in option_formats:
+        raise ValueError("Invalid df type. Expected one of: %s" % option_formats)
+
+    format_selection_field = WebDriverWait(driver, 10).until(
+        ec.visibility_of_element_located((By.XPATH, format_selector_path))
+    )
+    format_selection_field.click()
+
+    format_selection = WebDriverWait(driver, 10).until(
+        ec.visibility_of_element_located(
+            (By.XPATH, formats_selector_paths[selected_format])
+        )
+    )
+    format_selection.click()
+
     download_button = WebDriverWait(driver, 10).until(
         ec.visibility_of_element_located((By.XPATH, download_button_path))
     )
@@ -76,4 +94,4 @@ if __name__ == "__main__":
     username = facebook_credentials["facebook_user"]
     password = facebook_credentials["facebook_password"]
     login_to_fb(driver, username, password)
-    export_page_insights("video")
+    export_page_insights("video", "csv")

@@ -8,3 +8,9 @@ insights_selector_paths = {
     "page": "/html/body/div[8]/div[2]/div/div/div/div/div[2]/div[1]/div[2]/div[1]/div/div[2]/input",
     "video": "/html/body/div[8]/div[2]/div/div/div/div/div[2]/div[1]/div[2]/div[1]/div/div[4]/input",
 }
+
+format_selector_path = "/html/body/div[8]/div[2]/div/div/div/div/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/div/a"
+formats_selector_paths = {
+    "xls": "/html/body/div[9]/div/div/div/ul/li[1]/a/span/span",
+    "csv": "/html/body/div[9]/div/div/div/ul/li[2]/a/span/span",
+}
