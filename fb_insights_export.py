@@ -57,17 +57,17 @@ def export_page_insights(selected_insights, selected_format):
     )
     export_button.click()
 
-    option_insights = ["post", "page", "video"]
-    if selected_insights not in option_insights:
-        raise ValueError("Invalid df type. Expected one of: %s" % option_insights)
+    select_insight_types(selected_insights)
 
-    insights_selection = WebDriverWait(driver, 10).until(
-        ec.visibility_of_element_located(
-            (By.XPATH, insights_selector_paths[selected_insights])
-        )
+    select_format(selected_format)
+
+    download_button = WebDriverWait(driver, 10).until(
+        ec.visibility_of_element_located((By.XPATH, download_button_path))
     )
-    insights_selection.click()
+    download_button.click()
 
+
+def select_format(selected_format):
     option_formats = ["xls", "csv"]
     if selected_format not in option_formats:
         raise ValueError("Invalid df type. Expected one of: %s" % option_formats)
@@ -84,7 +84,22 @@ def export_page_insights(selected_insights, selected_format):
     )
     format_selection.click()
 
-    download_button = WebDriverWait(driver, 10).until(
-        ec.visibility_of_element_located((By.XPATH, download_button_path))
+
+def select_insight_types(selected_insights):
+    option_insights = ["post", "page", "video"]
+    if selected_insights not in option_insights:
+        raise ValueError("Invalid df type. Expected one of: %s" % option_insights)
+
+    insights_selection = WebDriverWait(driver, 10).until(
+        ec.visibility_of_element_located(
+            (By.XPATH, insights_selector_paths[selected_insights])
+        )
     )
-    download_button.click()
+    insights_selection.click()
+
+
+if __name__ == "__main__":
+    username = facebook_credentials["facebook_user"]
+    password = facebook_credentials["facebook_password"]
+    login_to_fb(driver, username, password)
+    export_page_insights("video", "csv")
