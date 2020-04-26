@@ -88,10 +88,3 @@ def export_page_insights(selected_insights, selected_format):
         ec.visibility_of_element_located((By.XPATH, download_button_path))
     )
     download_button.click()
-
-
-if __name__ == "__main__":
-    username = facebook_credentials["facebook_user"]
-    password = facebook_credentials["facebook_password"]
-    login_to_fb(driver, username, password)
-    export_page_insights("video", "csv")
