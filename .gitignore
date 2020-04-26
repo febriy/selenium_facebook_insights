@@ -1,6 +1,8 @@
 # credentials
 credentials.yml
 
+chromedriver_linux64
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
