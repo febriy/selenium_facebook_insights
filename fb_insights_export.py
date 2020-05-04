@@ -40,7 +40,15 @@ driver = webdriver.Chrome(
 driver.get(fb_page_info["url"])
 
 
-def login_to_fb(driver, username, password):
+def login_to_fb(driver, username: str, password: str):
+    """Login to Facebook
+
+    :param driver: Chromedriver instance
+    :param username: Facebook username, set in credentials.yml
+    :type username: str
+    :param password: Facebook password, set in credentials.yml
+    :type password: str
+    """
     # find the username and password field and enter the email and password.
     username_field = driver.find_elements_by_css_selector("input[name=email]")
     username_field[0].send_keys(username)
@@ -51,15 +59,22 @@ def login_to_fb(driver, username, password):
     login_button.click()
 
 
-def export_page_insights(selected_insights, selected_format):
+def export_page_insights(selected_insights: str, selected_format: str):
+    """Export selected page insights type in a selected format. 
+
+    :param selected_insights: "post", "page", or "video"
+    :type selected_insights: str
+    :param selected_format: "xls" or "csv"
+    :type selected_format: str
+    """
     export_button = WebDriverWait(driver, 10).until(
         ec.visibility_of_element_located((By.XPATH, export_button_path))
     )
     export_button.click()
 
-    select_insight_types(selected_insights)
+    _select_insight_types(selected_insights)
 
-    select_format(selected_format)
+    _select_format(selected_format)
 
     download_button = WebDriverWait(driver, 10).until(
         ec.visibility_of_element_located((By.XPATH, download_button_path))
@@ -67,7 +82,7 @@ def export_page_insights(selected_insights, selected_format):
     download_button.click()
 
 
-def select_format(selected_format):
+def _select_format(selected_format):
     option_formats = ["xls", "csv"]
     if selected_format not in option_formats:
         raise ValueError("Invalid df type. Expected one of: %s" % option_formats)
@@ -85,7 +100,7 @@ def select_format(selected_format):
     format_selection.click()
 
 
-def select_insight_types(selected_insights):
+def _select_insight_types(selected_insights):
     option_insights = ["post", "page", "video"]
     if selected_insights not in option_insights:
         raise ValueError("Invalid df type. Expected one of: %s" % option_insights)
