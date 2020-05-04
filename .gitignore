@@ -1,5 +1,6 @@
 # credentials
 credentials.yml
+!credentials_sample.yml
 
 chromedriver_linux64
 
